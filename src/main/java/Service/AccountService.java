@@ -1,10 +1,16 @@
 package Service;
 import DAO.AccountDAO;
+import DAO.MessageDAO;
 import Model.Account;
 
 public class AccountService {
     public AccountDAO accountDAO;
 
+    //constructor
+    public AccountService()
+    {            
+    accountDAO = new AccountDAO();
+    }
 
     public AccountService(AccountDAO dao)
     {
@@ -20,4 +26,5 @@ public class AccountService {
     {
         return null;
     }
+
 }

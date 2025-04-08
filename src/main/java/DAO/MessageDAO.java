@@ -35,7 +35,24 @@ public class MessageDAO {
         return messages;
     }
 
+    public Message insertMessage(Message message)
+    {
+        return null;
+    }
 
+    public List<Message> getAllMessages()
+    {
+        return null;
+    }
 
+    public Message getMessageByID()
+    {
+        return null;
+    }
+
+    public Message deleteMessageById()
+    {
+    return null;
+    }
 
 }

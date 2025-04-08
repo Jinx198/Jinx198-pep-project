@@ -29,8 +29,9 @@ public class SocialMediaController {
     AccountService accountService;
 
     public SocialMediaController(AccountService accountService, MessageService messageService) {
-        this.messageService = new MessageService();
         this.accountService = new AccountService();
+        this.messageService = new MessageService();
+        
     }
     
     /**
@@ -40,10 +41,14 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        //app.get("/register",this::getAccountHandler);
         app.post("/register", this::registerHandler);
-        //app.get("/messages", this::getMessageHandler);
-        //app.post("/messages", this::postMessageHandler);
+        app.post("/login", this::loginHandler);
+        app.post("/messages", this::createMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
+        app.get("/accounts/{account_id}/messages", this::getMessagesByUserHandler);
 
 
         return app;
@@ -53,11 +58,6 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    //registration handler
-    // private void getAccountHandler(Context context){
-        
-    //    context.json("");
-   // }
     
     private void registerHandler(Context context){
         Account account= context.bodyAsClass(Account.class);
@@ -71,16 +71,63 @@ public class SocialMediaController {
         }
     }
     
-    //get message handler
-    private void getMessageHandler(Context context) {
-        //List <Message> messages = MessageService.getMessage();
-        context.json("");
+    private void loginHandler(Context context) {
+        Account loginRequest = context.bodyAsClass(Account.class);
+        Account loggedIn = accountService.login(loginRequest);
+        if (loggedIn != null) {
+            context.json(loggedIn);
+        } else {
+            context.status(401);
+        }
     }
 
-    private void postMessageHandler(Context context) throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(), Message.class );
-        context.json(mapper.writeValueAsString(message));
+    private void createMessageHandler(Context context) {
+        Message message = context.bodyAsClass(Message.class);
+        Message created = messageService.createMessage(message);
+        if (created != null) {
+            context.json(created);
+        } else {
+            context.status(400);
+        }
+    }
+
+    private void getAllMessagesHandler(Context context) {
+        context.json(messageService.getAllMessages());
+    }
+
+    private void getMessageByIdHandler(Context ctx) {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.getMessageById(messageId);
+        if (message != null) {
+            ctx.json(message);
+        } else {
+            ctx.result(""); // Empty response body
+        }
+    }
+
+    private void deleteMessageHandler(Context ctx) {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message deleted = messageService.deleteMessageById(messageId);
+        if (deleted != null) {
+            ctx.json(deleted);
+        } else {
+            ctx.result(""); // Empty response body
+        }
+    }
+
+    private void updateMessageHandler(Context ctx) {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message newMessage = ctx.bodyAsClass(Message.class);
+        Message updated = messageService.updateMessageText(messageId, newMessage.getMessage_text());
+        if (updated != null) {
+            ctx.json(updated);
+        } else {
+            ctx.status(400);
+        }
+    }
+    private void getMessagesByUserHandler(Context ctx) {
+        int accountId = Integer.parseInt(ctx.pathParam("account_id"));
+        ctx.json(messageService.getMessagesByAccountId(accountId));
     }
 
 
