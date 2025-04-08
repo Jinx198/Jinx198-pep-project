@@ -1,7 +1,11 @@
 package Controller;
 
+import Model.Message;
+import Service.MessageService;
+import DAO.MessageDAO;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import java.util.List;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -16,7 +20,8 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
+        app.get("/messages", this::getMessageHandler);
+
 
         return app;
     }
@@ -25,8 +30,9 @@ public class SocialMediaController {
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
-    private void exampleHandler(Context context) {
-        context.json("sample text");
+    private void getMessageHandler(Context context) {
+        List <Message> messages = MessageService.getMessage();
+        context.json(" ");
     }
 
 
