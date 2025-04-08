@@ -19,7 +19,7 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
          while (rs.next()){
-            Message message = new Message(rs.getMesssage_id("message_id"))
+            Message message = new Message(rs.getMesssage_id("message_id"));
 
             //messages.addMessage();
          }
