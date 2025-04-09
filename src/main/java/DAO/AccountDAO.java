@@ -2,14 +2,10 @@ package DAO;
 import Model.Account;
 import Util.ConnectionUtil;
 
-import java.util.List;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.sql.*;
 
 public class AccountDAO {
 
@@ -66,7 +62,7 @@ public class AccountDAO {
     }
 
     
-
+    //method to get an account by it's username
     public Account getAccountByUserName(String username)
     {
         try (Connection conn = ConnectionUtil.getConnection()) {

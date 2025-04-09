@@ -123,6 +123,8 @@ public class MessageDAO {
     }
 
     public Message updateMessageText(int messageId, String newText) {
+        
+        
         try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "UPDATE Message SET message_text = ? WHERE message_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -140,6 +142,7 @@ public class MessageDAO {
     }
     public List<Message> getMessagesByAccountId(int accountId) {
         List<Message> messages = new ArrayList<>();
+
         try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "SELECT * FROM Message WHERE posted_by = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -155,7 +158,7 @@ public class MessageDAO {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
         return messages;
     }

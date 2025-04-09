@@ -10,16 +10,17 @@ public class AccountService {
     private AccountDAO accountDAO;
 
     //constructor
-    public AccountService()
-    {            
-    accountDAO = new AccountDAO();
-    }
+    //public AccountService()
+    //{            
+    //accountDAO = new AccountDAO();
+    //}
 
     public AccountService(AccountDAO dao)
     {
         this.accountDAO= dao;
     }
 
+    //method for creating an account
     public Account register(Account account)
     {
         //if the username is empty then it returns null
@@ -44,6 +45,7 @@ public class AccountService {
         return accountDAO.insertAccount(account);
     }
 
+    //method for logging in, checks if username and password is empty first.
     public Account login(Account account)
     {
         if(account.getUsername()== null|| account.getPassword()== null)
