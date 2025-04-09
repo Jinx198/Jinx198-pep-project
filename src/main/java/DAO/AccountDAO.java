@@ -1,18 +1,15 @@
 package DAO;
-
 import Model.Account;
 import Util.ConnectionUtil;
 
 import java.util.List;
 
-import org.junit.runners.model.Statement;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
+//import java.util.ArrayList;
+//import java.sql.*;
 
 public class AccountDAO {
 
@@ -90,4 +87,25 @@ public class AccountDAO {
         }
         return null;
     }
+}
+
+//method to get an account by it's ID
+public Account getAccountById(int id) {
+    try (Connection conn = ConnectionUtil.getConnection()) {
+        String sql = "SELECT * FROM Account WHERE account_id = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return new Account(
+                rs.getInt("account_id"),
+                rs.getString("username"),
+                rs.getString("password")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
 }

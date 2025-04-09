@@ -9,8 +9,7 @@ import DAO.AccountDAO;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import static org.mockito.ArgumentMatchers.nullable;
 
@@ -28,9 +27,9 @@ public class SocialMediaController {
     MessageService messageService;
     AccountService accountService;
 
-    public SocialMediaController(AccountService accountService, MessageService messageService) {
-        this.accountService = new AccountService();
-        this.messageService = new MessageService();
+    public SocialMediaController() {
+        this.accountService = new AccountService(new AccountDAO());
+        this.messageService = new MessageService(new MessageDAO(), new AccountDAO());
         
     }
     
@@ -41,6 +40,7 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
+
         app.post("/register", this::registerHandler);
         app.post("/login", this::loginHandler);
         app.post("/messages", this::createMessageHandler);

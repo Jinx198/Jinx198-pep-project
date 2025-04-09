@@ -2,14 +2,11 @@ package DAO;
 import Model.Message;
 import Util.ConnectionUtil;
 
-import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-
 
 import java.util.ArrayList;
 
@@ -63,6 +60,7 @@ public class MessageDAO {
         return null;
     }
 
+    //get all messages from the array
     public List<Message> getAllMessages()
     {
         List<Message> messages = new ArrayList<>();
@@ -85,7 +83,7 @@ public class MessageDAO {
         return messages;
     }
 
-    public Message getMessageByID(int messageId)
+    public Message getMessageById(int messageId)
     {
         try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "SELECT * FROM Message WHERE message_id = ?";
