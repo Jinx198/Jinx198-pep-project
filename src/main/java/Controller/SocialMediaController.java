@@ -9,13 +9,7 @@ import DAO.AccountDAO;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-
-
-import static org.mockito.ArgumentMatchers.nullable;
-
 import java.util.List;
-
-
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -101,7 +95,7 @@ public class SocialMediaController {
         if (message != null) {
             ctx.json(message);
         } else {
-            ctx.result(""); // Empty response body
+            ctx.result(""); 
         }
     }
 
@@ -111,14 +105,19 @@ public class SocialMediaController {
         if (deleted != null) {
             ctx.json(deleted);
         } else {
-            ctx.result(""); // Empty response body
+            ctx.result(""); 
         }
     }
 
     private void updateMessageHandler(Context ctx) {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
         Message newMessage = ctx.bodyAsClass(Message.class);
-        Message updated = messageService.updateMessageText(messageId, newMessage.getMessage_text());
+
+        if(newMessage.getMessage_text()==null){
+            ctx.status(400);
+            return;
+        }
+        Message updated = messageService.updateMessage(messageId, newMessage.getMessage_text());
         if (updated != null) {
             ctx.json(updated);
         } else {
@@ -129,6 +128,5 @@ public class SocialMediaController {
         int accountId = Integer.parseInt(ctx.pathParam("account_id"));
         ctx.json(messageService.getMessagesByAccountId(accountId));
     }
-
 
 }

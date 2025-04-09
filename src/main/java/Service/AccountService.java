@@ -46,7 +46,7 @@ public class AccountService {
 
     public Account login(Account account)
     {
-        if(account.getUsername()== null|| account.getPassword()== null);
+        if(account.getUsername()== null|| account.getPassword()== null)
         {
             return null;
         }

@@ -87,7 +87,7 @@ public class AccountDAO {
         }
         return null;
     }
-}
+
 
 //method to get an account by it's ID
 public Account getAccountById(int id) {
@@ -108,4 +108,6 @@ public Account getAccountById(int id) {
         e.printStackTrace();
     }
     return null;
+}
+
 }
