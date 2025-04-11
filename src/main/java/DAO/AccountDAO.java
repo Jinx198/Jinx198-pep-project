@@ -9,17 +9,15 @@ import java.sql.SQLException;
 
 public class AccountDAO {
 
-    //inserting an new account in the database
+    //inserting an new account in the database without a id being provided 
     public Account insertAccount(Account account){
        
         try( Connection conn = ConnectionUtil.getConnection()){
             //sql insert statement for an account
-            String sql="INSERT INTO Account( username, password) VALUE (?,?);";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            //PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String sql="INSERT INTO Account( username, password) VALUES (?,?);";
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             //prepared statement for sql string
-            //preparedStatement.setInt(1,account.getAccount_id());
             ps.setString(1,account.getUsername());
             ps.setString(2,account.getPassword());
             int rowsAffected = ps.executeUpdate();
@@ -39,6 +37,7 @@ public class AccountDAO {
         return null;
     }
 
+    //retrieve existing account by it's username and password
     public Account getAccountByUserNameandPassword(String username, String password)
     {
         try (Connection conn = ConnectionUtil.getConnection()) {

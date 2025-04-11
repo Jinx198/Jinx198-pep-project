@@ -33,6 +33,7 @@ public class MessageService {
     //method to create a new message
     public Message createMessage(Message message)
     {
+        //if message is empty or larger than 255 character it returns null
         if(message.getMessage_text()== null|| message.getMessage_text().isBlank() || message.getMessage_text().length()>255) {
             return null;
         } 
@@ -55,11 +56,13 @@ public class MessageService {
         
     }
 
+    //delete a message based on the id
     public Message deleteMessageById(int messageId)
     {
         return messageDAO.deleteMessageById(messageId);
     }
 
+    //update the message with new text
     public Message updateMessage(int messageId, String newText)
     {
         if(newText == null || newText.isBlank()|| newText.length()>255){
@@ -68,6 +71,7 @@ public class MessageService {
         return messageDAO.updateMessageText(messageId, newText);
     }
 
+    //get a message based on it's account id 
     public List<Message> getMessagesByAccountId(int accountid)
     {
         return messageDAO.getMessagesByAccountId(accountid);

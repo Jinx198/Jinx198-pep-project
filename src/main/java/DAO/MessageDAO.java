@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class MessageDAO {
 
+    //grab a message
     public List <Message> getMessage(){
 
         Connection connection = ConnectionUtil.getConnection();
@@ -36,12 +37,13 @@ public class MessageDAO {
         return messages;
     }
 
+    //insert a message
     public Message insertMessage(Message message)
     {
         try (Connection conn = ConnectionUtil.getConnection()) {
             String sql = "INSERT INTO Message (posted_by, message_text, time_posted_epoch) VALUES (?, ?, ?)";
-            //PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            //PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, message.getPosted_by());
             ps.setString(2, message.getMessage_text());
             ps.setLong(3, message.getTime_posted_epoch());
@@ -105,6 +107,7 @@ public class MessageDAO {
         return null;
     }
 
+    //delete a message based on it's ID
     public Message deleteMessageById(int messageId)
     {
         Message toDelete = getMessageById(messageId);

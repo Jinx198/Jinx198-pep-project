@@ -1,20 +1,12 @@
 package Service;
-import static org.mockito.ArgumentMatchers.nullable;
 
 import DAO.AccountDAO;
-import DAO.MessageDAO;
 import Model.Account;
-import java.util.List;
 
 public class AccountService {
     private AccountDAO accountDAO;
 
     //constructor
-    //public AccountService()
-    //{            
-    //accountDAO = new AccountDAO();
-    //}
-
     public AccountService(AccountDAO dao)
     {
         this.accountDAO= dao;

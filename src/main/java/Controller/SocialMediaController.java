@@ -9,7 +9,6 @@ import DAO.AccountDAO;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import java.util.List;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -53,18 +52,19 @@ public class SocialMediaController {
      * @param context The Javalin Context object manages information about both the HTTP request and response.
      */
     
-    private void registerHandler(Context context){
-        Account account= context.bodyAsClass(Account.class);
+    private void registerHandler(Context ctx){
+        Account account= ctx.bodyAsClass(Account.class);
         Account created = accountService.register(account);
         if(created != null){
-            context.json(created);
+            ctx.json(created);
         }
         else
         {
-            context.status(400);
+            ctx.status(400);
         }
     }
-    
+
+    //log in using account
     private void loginHandler(Context context) {
         Account loginRequest = context.bodyAsClass(Account.class);
         Account loggedIn = accountService.login(loginRequest);
@@ -75,20 +75,23 @@ public class SocialMediaController {
         }
     }
 
-    private void createMessageHandler(Context context) {
-        Message message = context.bodyAsClass(Message.class);
+    //creates a message 
+    private void createMessageHandler(Context ctx) {
+        Message message = ctx.bodyAsClass(Message.class);
         Message created = messageService.createMessage(message);
         if (created != null) {
-            context.json(created);
+            ctx.json(created);
         } else {
-            context.status(400);
+            ctx.status(400);
         }
     }
 
+    //gets all messages 
     private void getAllMessagesHandler(Context context) {
         context.json(messageService.getAllMessages());
     }
 
+    //gets messaged based on it's id
     private void getMessageByIdHandler(Context ctx) {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
         Message message = messageService.getMessageById(messageId);
@@ -99,6 +102,7 @@ public class SocialMediaController {
         }
     }
 
+    //deletes a message
     private void deleteMessageHandler(Context ctx) {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
         Message deleted = messageService.deleteMessageById(messageId);
@@ -109,6 +113,7 @@ public class SocialMediaController {
         }
     }
 
+    //updates a message 
     private void updateMessageHandler(Context ctx) {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
         Message newMessage = ctx.bodyAsClass(Message.class);
@@ -124,6 +129,8 @@ public class SocialMediaController {
             ctx.status(400);
         }
     }
+
+    //gets message based on the user's id 
     private void getMessagesByUserHandler(Context ctx) {
         int accountId = Integer.parseInt(ctx.pathParam("account_id"));
         ctx.json(messageService.getMessagesByAccountId(accountId));
