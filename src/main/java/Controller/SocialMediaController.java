@@ -38,10 +38,10 @@ public class SocialMediaController {
         app.post("/login", this::loginHandler);
         app.post("/messages", this::createMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
-        app.get("/messages/{message_id}", this::getMessageByIdHandler);
-        app.delete("/messages/{message_id}", this::deleteMessageHandler);
-        app.patch("/messages/{message_id}", this::updateMessageHandler);
-        app.get("/accounts/{account_id}/messages", this::getMessagesByUserHandler);
+        app.get("/messages/{message-id}", this::getMessageByIdHandler);
+        app.delete("/messages/{message-id}", this::deleteMessageHandler);
+        app.patch("/messages/{message-id}", this::updateMessageHandler);
+        app.get("/accounts/{account-id}/messages", this::getMessagesByUserHandler);
 
 
         return app;
@@ -93,7 +93,7 @@ public class SocialMediaController {
 
     //gets messaged based on it's id
     private void getMessageByIdHandler(Context ctx) {
-        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        int messageId = Integer.parseInt(ctx.pathParam("message-id"));
         Message message = messageService.getMessageById(messageId);
         if (message != null) {
             ctx.json(message);
@@ -104,7 +104,7 @@ public class SocialMediaController {
 
     //deletes a message
     private void deleteMessageHandler(Context ctx) {
-        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        int messageId = Integer.parseInt(ctx.pathParam("message-id"));
         Message deleted = messageService.deleteMessageById(messageId);
         if (deleted != null) {
             ctx.json(deleted);
@@ -115,7 +115,7 @@ public class SocialMediaController {
 
     //updates a message 
     private void updateMessageHandler(Context ctx) {
-        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        int messageId = Integer.parseInt(ctx.pathParam("message-id"));
         Message newMessage = ctx.bodyAsClass(Message.class);
 
         if(newMessage.getMessage_text()==null){
@@ -132,7 +132,7 @@ public class SocialMediaController {
 
     //gets message based on the user's id 
     private void getMessagesByUserHandler(Context ctx) {
-        int accountId = Integer.parseInt(ctx.pathParam("account_id"));
+        int accountId = Integer.parseInt(ctx.pathParam("account-id"));
         ctx.json(messageService.getMessagesByAccountId(accountId));
     }
 
